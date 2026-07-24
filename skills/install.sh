@@ -8,8 +8,8 @@ echo "Installing ddip skills to $TARGET ..."
 
 for skill_dir in "$REPO_DIR/skills"/*/; do
   name=$(basename "$skill_dir")
-  [ -f "$skill_dir/SKILL.md" ] || continue
-  cp -r "$skill_dir" "$TARGET/"
+  [ -f "$REPO_DIR/skills/$name/SKILL.md" ] || continue
+  cp -r "$REPO_DIR/skills/$name" "$TARGET/$name"
   echo "  [OK] $name"
 done
 

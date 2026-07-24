@@ -22,15 +22,17 @@ bash skills/install.sh
 
 或對 OpenCode 說：
 
-> 「安裝技能」
+> 「幫我安裝位在 `https://github.com/shumingyang-opencode/dev-docker-image-packages.git` 的技能」
+> 或簡單說：「安裝技能」
 
 ### 2. 可用指令
 
 | 說 | 效果 |
 |----|------|
-| 「有哪些 image」 | 列出所有可用 Image |
-| 「加 image」 | 互動式新增 Image（Dockerfile + README） |
-| 「build image」 | 觸發 GitHub Actions 建置指定 Image |
+| 「幫我安裝位在 `https://github.com/shumingyang-opencode/dev-docker-image-packages.git` 的技能」 | 從 repo 安裝所有 ddip 技能 |
+| 「有哪些 image」 / 「list images」 / 「可用 image」 | 列出所有可用 Image |
+| 「加 image」 / 「new image」 / 「create image」 | 互動式新增 Image（Dockerfile + README） |
+| 「build image」 / 「建置 image」 / 「更新 image」 | 觸發 GitHub Actions 建置指定 Image |
 
 ### 3. 手動觸發 Build
 
