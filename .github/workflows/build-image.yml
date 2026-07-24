@@ -25,16 +25,27 @@ jobs:
       - id: discover
         run: |
           if [ "all" = "${{ inputs.image }}" ]; then
-            IMG=$(ls -d images/*/ | xargs -n1 basename | jq -R -s -c '{image: [.[] | select(length > 0)]}')
+            FIRST=true
+            JSON='{"image":['
+            for dir in images/*/; do
+              name=$(basename "$dir")
+              [ -f "images/$name/Dockerfile" ] || continue
+              if [ "$FIRST" = true ]; then
+                JSON="$JSON\"$name\""
+                FIRST=false
+              else
+                JSON="$JSON,\"$name\""
+              fi
+            done
+            JSON="$JSON]}"
+            echo "matrix=$JSON" >> "$GITHUB_OUTPUT"
           else
-            # Verify the image directory exists
             if [ ! -d "images/${{ inputs.image }}" ]; then
               echo "Error: images/${{ inputs.image }} not found"
               exit 1
             fi
-            IMG=$(printf '{"image": ["%s"]}' "${{ inputs.image }}")
+            echo "matrix={\"image\":[\"${{ inputs.image }}\"]}" >> "$GITHUB_OUTPUT"
           fi
-          echo "matrix=$IMG" >> "$GITHUB_OUTPUT"
 
   build:
     needs: discover
