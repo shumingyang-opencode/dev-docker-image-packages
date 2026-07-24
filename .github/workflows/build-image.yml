@@ -1,0 +1,79 @@
+name: Build Docker Image
+
+on:
+  workflow_dispatch:
+    inputs:
+      image:
+        description: |
+          Image name (directory name under images/).
+          Use "all" to build every image.
+        required: true
+        default: 'python'
+
+env:
+  REGISTRY: ghcr.io
+  ORG: shumingyang-opencode
+
+jobs:
+  discover:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.discover.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - id: discover
+        run: |
+          if [ "all" = "${{ inputs.image }}" ]; then
+            IMG=$(ls -d images/*/ | xargs -n1 basename | jq -R -s -c '{image: [.[] | select(length > 0)]}')
+          else
+            # Verify the image directory exists
+            if [ ! -d "images/${{ inputs.image }}" ]; then
+              echo "Error: images/${{ inputs.image }} not found"
+              exit 1
+            fi
+            IMG=$(printf '{"image": ["%s"]}' "${{ inputs.image }}")
+          fi
+          echo "matrix=$IMG" >> "$GITHUB_OUTPUT"
+
+  build:
+    needs: discover
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    strategy:
+      matrix: ${{ fromJSON(needs.discover.outputs.matrix) }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Login to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract version from Dockerfile
+        id: version
+        run: |
+          IMG=${{ matrix.image }}
+          VER=$(grep -oP 'org\.opencontainers\.image\.version="\K[^"]+' images/$IMG/Dockerfile || echo "0.0.0")
+          echo "version=$VER" >> "$GITHUB_OUTPUT"
+          echo "image=$IMG" >> "$GITHUB_OUTPUT"
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          context: ./images/${{ steps.version.outputs.image }}
+          file: ./images/${{ steps.version.outputs.image }}/Dockerfile
+          push: true
+          tags: |
+            ${{ env.REGISTRY }}/${{ env.ORG }}/${{ steps.version.outputs.image }}:${{ steps.version.outputs.version }}
+            ${{ env.REGISTRY }}/${{ env.ORG }}/${{ steps.version.outputs.image }}:latest
+          labels: |
+            org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}
+            org.opencontainers.image.revision=${{ github.sha }}

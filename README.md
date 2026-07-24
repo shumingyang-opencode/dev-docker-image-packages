@@ -1,0 +1,64 @@
+# Dev Docker Image Packages
+
+個人開發用 Docker Image 集合，透過 GitHub Actions 自動建置並發佈至 GHCR。
+
+## 可用 Images
+
+| Image | 版本 | 用途 |
+|-------|------|------|
+| [python](./images/python/) | 1.0.0 | Python 3.13 開發基底 |
+
+完整說明請見 [images/README.md](./images/README.md)。
+
+## 快速開始
+
+### 1. 安裝 Skills
+
+```bash
+git clone https://github.com/shumingyang-opencode/dev-docker-image-packages.git
+cd dev-docker-image-packages
+bash skills/install.sh
+```
+
+或對 OpenCode 說：
+
+> 「安裝技能」
+
+### 2. 可用指令
+
+| 說 | 效果 |
+|----|------|
+| 「有哪些 image」 | 列出所有可用 Image |
+| 「加 image」 | 互動式新增 Image（Dockerfile + README） |
+| 「build image」 | 觸發 GitHub Actions 建置指定 Image |
+
+### 3. 手動觸發 Build
+
+前往 GitHub → Actions → Build Docker Image → Run workflow
+
+或使用 gh CLI：
+
+```bash
+gh workflow run build-image.yml -f image=python
+gh workflow run build-image.yml -f image=all
+```
+
+### 4. Pull Image
+
+```bash
+docker pull ghcr.io/shumingyang-opencode/python:latest
+```
+
+## 目錄結構
+
+```
+├── .github/workflows/    GitHub Actions workflow
+├── images/               Docker Image 定義
+│   ├── README.md         索引
+│   └── <name>/
+│       ├── Dockerfile    建置腳本
+│       └── README.md     說明文件
+├── skills/               OpenCode Skills
+│   └── install.sh        安裝腳本
+└── README.md             本檔案
+```
