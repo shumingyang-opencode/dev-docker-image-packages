@@ -8,7 +8,7 @@ on:
           Image name (directory name under images/).
           Use "all" to build every image.
         required: true
-        default: 'python'
+        default: 'py-devkit-image-base'
 
 env:
   REGISTRY: ghcr.io

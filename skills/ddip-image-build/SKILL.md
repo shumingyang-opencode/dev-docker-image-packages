@@ -34,7 +34,7 @@ Trigger a remote GitHub Actions build for one or all Docker images.
 
 5. Show the workflow run URL:
    ```
-   [OK] Build started for python
+   [OK] Build started for py-devkit-image-base
    → https://github.com/shumingyang-opencode/dev-docker-image-packages/actions/runs/<id>
    ```
 

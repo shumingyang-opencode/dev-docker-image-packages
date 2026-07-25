@@ -25,7 +25,7 @@ List all Docker images in `images/` with details.
    ```
    | Image | Version | Base | Tools | Purpose |
    |-------|---------|------|-------|---------|
-   | python | 1.0.0 | python:3.13-slim | poetry, ruff, mypy, pytest | Python dev base |
+   | py-devkit-image-base | 1.1.0 | python:3.13-slim | poetry, ruff, mypy, pytest, duckdb, AI CLIs | Python dev base |
    ```
 
 4. Append instructions:

@@ -1,4 +1,4 @@
-# python — Python 3.13 開發基底 Image
+# py-devkit-image-base — Python 開發工具包基底 Image
 
 Base: `python:3.13-slim`
 
@@ -6,7 +6,7 @@ Base: `python:3.13-slim`
 
 ## 功能
 
-通用 Python 開發環境，適合 CI/CD 流程與本機開發使用。
+通用 Python 開發環境，內建 AI CLI 工具集，適合 CI/CD 流程與本機開發使用。
 
 ## 預裝工具
 
@@ -24,15 +24,15 @@ Base: `python:3.13-slim`
 
 ## 建議用途
 
-- 作為其他 Docker Image 的 Base Image (`FROM ghcr.io/shumingyang-opencode/python:latest`)
+- 作為其他 Docker Image 的 Base Image (`FROM ghcr.io/shumingyang-opencode/py-devkit-image-base:latest`)
 - CI/CD Pipeline 中的 Python 測試與建置環境
 - 本機 Python 開發容器
 
 ## 使用方式
 
 ```bash
-docker pull ghcr.io/shumingyang-opencode/python:latest
+docker pull ghcr.io/shumingyang-opencode/py-devkit-image-base:latest
 
 # 以 devuser 身份執行
-docker run --user devuser -it ghcr.io/shumingyang-opencode/python:bash
+docker run --user devuser -it ghcr.io/shumingyang-opencode/py-devkit-image-base:bash
 ```

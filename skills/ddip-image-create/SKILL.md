@@ -17,7 +17,7 @@ Ask the user:
    - Confirm it doesn't already exist in `images/`
 
 2. **Base image** — what FROM to use?
-   - Default recommendation: `ghcr.io/shumingyang-opencode/python:latest` (our own base)
+   - Default recommendation: `ghcr.io/shumingyang-opencode/py-devkit-image-base:latest` (our own base)
    - Alternatives: `python:3.13-slim`, `ubuntu:24.04`, `node:22-slim`, `scratch`, etc.
 
 3. **Purpose** — one sentence describing what this image is for
@@ -125,7 +125,7 @@ Update the image table in the root README.
 Show summary:
 ```
 Image:      python-ml
-Base:       ghcr.io/shumingyang-opencode/python:latest
+Base:       ghcr.io/shumingyang-opencode/py-devkit-image-base:latest
 Version:    0.1.0
 System:     git, curl, build-essential
 Python:     poetry, ruff, numpy, pandas

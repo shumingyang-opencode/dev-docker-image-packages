@@ -6,7 +6,7 @@
 
 | Image | 版本 | 用途 |
 |-------|------|------|
-| [python](./images/python/) | 1.1.0 | Python 3.13 開發基底（含 AI CLI、duckdb） |
+| [py-devkit-image-base](./images/py-devkit-image-base/) | 1.1.0 | Python 3.13 開發基底（含 AI CLI、duckdb） |
 
 完整說明請見 [images/README.md](./images/README.md)。
 
@@ -41,14 +41,14 @@ bash skills/install.sh
 或使用 gh CLI：
 
 ```bash
-gh workflow run build-image.yml -f image=python
+gh workflow run build-image.yml -f image=py-devkit-image-base
 gh workflow run build-image.yml -f image=all
 ```
 
 ### 4. Pull Image
 
 ```bash
-docker pull ghcr.io/shumingyang-opencode/python:latest
+docker pull ghcr.io/shumingyang-opencode/py-devkit-image-base:latest
 ```
 
 ## 目錄結構
