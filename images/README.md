@@ -4,7 +4,7 @@
 
 | Image | 版本 | 說明 |
 |-------|------|------|
-| [py-devkit-image-base](./py-devkit-image-base/) | 1.1.0 | Python 3.13 開發基底，含 AI CLI / duckdb / poetry / ruff / mypy / pytest |
+| [py-devkit-image-base](./py-devkit-image-base/) | 1.1.1 | Python 3.13 開發基底，含 AI CLI / duckdb / poetry / ruff / mypy / pytest |
 
 ## 如何新增 Image
 

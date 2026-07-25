@@ -1,5 +1,5 @@
 FROM python:3.13-slim
-LABEL org.opencontainers.image.version="1.1.0"
+LABEL org.opencontainers.image.version="1.1.1"
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV LANG=C.UTF-8
@@ -13,6 +13,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     tzdata \
     sqlite3 \
     fonts-noto-cjk \
+    && curl -fsSL https://deb.nodesource.com/setup_22.x | bash - \
+    && apt-get install -y nodejs \
     && rm -rf /var/lib/apt/lists/*
 
 ENV TZ=Asia/Taipei
@@ -33,6 +35,7 @@ RUN npm install -g \
     @larksuite/cli \
     && npm cache clean --force
 
-RUN sh -c "$(curl -L https://trae.cn/trae-cli/install.sh)"
+RUN sh -c "$(curl -L https://trae.cn/trae-cli/install.sh)" \
+    && ln -sf /root/.local/bin/traecli /usr/local/bin/traecli
 
 RUN useradd -m devuser
