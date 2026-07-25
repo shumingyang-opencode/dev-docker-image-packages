@@ -35,7 +35,10 @@ RUN npm install -g \
     @larksuite/cli \
     && npm cache clean --force
 
-RUN sh -c "$(curl -L https://trae.cn/trae-cli/install.sh)" \
-    && ln -sf /root/.local/bin/traecli /usr/local/bin/traecli
+# Trae CLI: 因地區限制無法在 Docker build 中自動安裝
+# 需要時請手動執行:
+#   sh -c "$(curl -L https://trae.cn/trae-cli/install.sh)"
+# RUN sh -c "$(curl -L https://trae.cn/trae-cli/install.sh)" \
+#     && ln -sf /root/.local/bin/traecli /usr/local/bin/traecli
 
 RUN useradd -m devuser
