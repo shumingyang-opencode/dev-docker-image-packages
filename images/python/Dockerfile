@@ -1,5 +1,9 @@
 FROM python:3.13-slim
-LABEL org.opencontainers.image.version="1.0.0"
+LABEL org.opencontainers.image.version="1.1.0"
+
+ENV DEBIAN_FRONTEND=noninteractive
+ENV LANG=C.UTF-8
+ENV LC_ALL=C.UTF-8
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     git \
@@ -7,15 +11,28 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     ca-certificates \
     build-essential \
     tzdata \
+    sqlite3 \
+    fonts-noto-cjk \
     && rm -rf /var/lib/apt/lists/*
 
 ENV TZ=Asia/Taipei
+WORKDIR /workspace
 
 RUN pip install --no-cache-dir --upgrade pip \
     && pip install --no-cache-dir \
     poetry \
     ruff \
     mypy \
-    pytest
+    pytest \
+    duckdb
+
+RUN npm install -g \
+    opencode-ai \
+    @github/copilot \
+    @google/gemini-cli \
+    @larksuite/cli \
+    && npm cache clean --force
+
+RUN sh -c "$(curl -L https://trae.cn/trae-cli/install.sh)"
 
 RUN useradd -m devuser

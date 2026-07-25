@@ -4,7 +4,7 @@
 
 | Image | 版本 | 說明 |
 |-------|------|------|
-| [python](./python/) | 1.0.0 | Python 3.13 開發基底，含 poetry / ruff / mypy / pytest |
+| [python](./python/) | 1.1.0 | Python 3.13 開發基底，含 AI CLI / duckdb / poetry / ruff / mypy / pytest |
 
 ## 如何新增 Image
 

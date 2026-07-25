@@ -2,7 +2,7 @@
 
 Base: `python:3.13-slim`
 
-版本: `1.0.0`
+版本: `1.1.0`
 
 ## 功能
 
@@ -12,11 +12,15 @@ Base: `python:3.13-slim`
 
 | 類別 | 工具 | 用途 |
 |------|------|------|
-| 系統 | git, curl, ca-certificates, build-essential, tzdata | 版本控制、網路、編譯 |
+| 系統 | git, curl, ca-certificates, build-essential, tzdata, sqlite3 | 版本控制、網路、編譯、資料庫 |
+| 系統 | fonts-noto-cjk | 中文字型支援 |
 | Python | poetry | 套件管理 |
 | Python | ruff | Linter & Formatter |
 | Python | mypy | 型別檢查 |
 | Python | pytest | 測試框架 |
+| Python | duckdb | 嵌入式 SQL OLAP 資料庫 |
+| AI CLI | opencode-ai, @github/copilot, @google/gemini-cli, @larksuite/cli | AI 開發助手 |
+| AI CLI | traecli (TRAE CLI) | AI Code Agent |
 
 ## 建議用途
 

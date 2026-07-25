@@ -6,7 +6,7 @@
 
 | Image | 版本 | 用途 |
 |-------|------|------|
-| [python](./images/python/) | 1.0.0 | Python 3.13 開發基底 |
+| [python](./images/python/) | 1.1.0 | Python 3.13 開發基底（含 AI CLI、duckdb） |
 
 完整說明請見 [images/README.md](./images/README.md)。
 
