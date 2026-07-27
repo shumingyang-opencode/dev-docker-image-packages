@@ -35,7 +35,7 @@ RUN npm install -g \
     @larksuite/cli \
     && npm cache clean --force
 
-RUN pip install --no-cache-dir docker \
+RUN pip install --no-cache-dir docker pexpect \
     && pip install --no-cache-dir git+https://github.com/bytedance/trae-agent.git
 
 RUN useradd -m devuser
