@@ -117,4 +117,4 @@ jobs:
       - name: Run smoke tests
         run: |
           docker pull ${{ steps.info.outputs.tag }}
-          docker run --rm ${{ steps.info.outputs.tag }} bash < images/${{ matrix.image }}/test-smoke.sh
+          docker run --rm -i ${{ steps.info.outputs.tag }} bash < images/${{ matrix.image }}/test-smoke.sh

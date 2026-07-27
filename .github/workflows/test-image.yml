@@ -82,4 +82,4 @@ jobs:
           fi
           IMAGE="${{ env.REGISTRY }}/${{ env.ORG }}/${{ matrix.image }}:${TAG}"
           docker pull "$IMAGE"
-          docker run --rm "$IMAGE" bash < images/${{ matrix.image }}/test-smoke.sh
+          docker run --rm -i "$IMAGE" bash < images/${{ matrix.image }}/test-smoke.sh
