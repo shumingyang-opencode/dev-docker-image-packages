@@ -26,6 +26,18 @@ Base: `python:3.12-slim`
 | AI CLI | Lark CLI | `lark-cli` | 飛書開發工具 |
 | AI CLI | Trae Agent | `trae-cli` | AI Code Agent |
 
+### AI CLI 認證方式
+
+各 CLI 可透過環境變數傳遞 credentials：
+
+| CLI | Environment Variable |
+|-----|---------------------|
+| opencode | `OPENCODE_API_KEY` |
+| copilot | `COPILOT_GITHUB_TOKEN` / `GH_TOKEN` / `GITHUB_TOKEN` |
+| gemini | `GEMINI_API_KEY` / `GOOGLE_GENAI_USE_VERTEXAI` |
+| lark-cli | 執行 `lark-cli config init --new` 互動式認證 |
+| trae-cli | `OPENAI_API_KEY` / `ANTHROPIC_API_KEY`（依 provider） |
+
 ## 建議用途
 
 - 作為其他 Docker Image 的 Base Image
@@ -37,7 +49,11 @@ Base: `python:3.12-slim`
 ### Pull Image
 
 ```bash
+# 最新版本
 docker pull ghcr.io/shumingyang-opencode/py-devkit-image-base:latest
+
+# 鎖定特定版本
+docker pull ghcr.io/shumingyang-opencode/py-devkit-image-base:1.2.0
 ```
 
 ### 執行容器
