@@ -1,0 +1,85 @@
+name: Test Docker Image
+
+on:
+  workflow_dispatch:
+    inputs:
+      image:
+        description: |
+          Image name (directory name under images/).
+        required: true
+        type: choice
+        options:
+          - py-devkit-image-base
+          - all
+      tag:
+        description: |
+          Image tag to test (default: latest).
+          Ignored when image=all (always uses :latest).
+        required: false
+        default: 'latest'
+
+env:
+  REGISTRY: ghcr.io
+  ORG: shumingyang-opencode
+
+jobs:
+  discover:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.discover.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - id: discover
+        run: |
+          if [ "all" = "${{ inputs.image }}" ]; then
+            FIRST=true
+            JSON='{"image":['
+            for dir in images/*/; do
+              name=$(basename "$dir")
+              [ -f "images/$name/Dockerfile" ] || continue
+              [ -f "images/$name/test-smoke.sh" ] || continue
+              if [ "$FIRST" = true ]; then
+                JSON="$JSON\"$name\""
+                FIRST=false
+              else
+                JSON="$JSON,\"$name\""
+              fi
+            done
+            JSON="$JSON]}"
+            echo "matrix=$JSON" >> "$GITHUB_OUTPUT"
+          else
+            if [ ! -f "images/${{ inputs.image }}/test-smoke.sh" ]; then
+              echo "Error: no test-smoke.sh found for ${{ inputs.image }}"
+              exit 1
+            fi
+            echo "matrix={\"image\":[\"${{ inputs.image }}\"]}" >> "$GITHUB_OUTPUT"
+          fi
+
+  smoke-test:
+    needs: discover
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: read
+    strategy:
+      matrix: ${{ fromJSON(needs.discover.outputs.matrix) }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Login to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Pull and test
+        run: |
+          TAG="${{ inputs.tag }}"
+          if [ "${{ inputs.image }}" = "all" ]; then
+            TAG="latest"
+          fi
+          IMAGE="${{ env.REGISTRY }}/${{ env.ORG }}/${{ matrix.image }}:${TAG}"
+          docker pull "$IMAGE"
+          docker run --rm "$IMAGE" bash < images/${{ matrix.image }}/test-smoke.sh
