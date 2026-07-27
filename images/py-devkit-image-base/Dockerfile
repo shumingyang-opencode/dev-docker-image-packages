@@ -1,5 +1,5 @@
 FROM python:3.13-slim
-LABEL org.opencontainers.image.version="1.1.1"
+LABEL org.opencontainers.image.version="1.1.2"
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV LANG=C.UTF-8
@@ -35,10 +35,8 @@ RUN npm install -g \
     @larksuite/cli \
     && npm cache clean --force
 
-# Trae CLI: 因地區限制無法在 Docker build 中自動安裝
-# 需要時請手動執行:
-#   sh -c "$(curl -L https://trae.cn/trae-cli/install.sh)"
-# RUN sh -c "$(curl -L https://trae.cn/trae-cli/install.sh)" \
-#     && ln -sf /root/.local/bin/traecli /usr/local/bin/traecli
+# Trae Agent (open-source version from ByteDance)
+# https://github.com/bytedance/trae-agent
+RUN pip install --no-cache-dir git+https://github.com/bytedance/trae-agent.git
 
 RUN useradd -m devuser
