@@ -1,5 +1,5 @@
-FROM python:3.13-slim
-LABEL org.opencontainers.image.version="1.1.2"
+FROM python:3.12-slim
+LABEL org.opencontainers.image.version="1.2.0"
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV LANG=C.UTF-8
@@ -35,9 +35,6 @@ RUN npm install -g \
     @larksuite/cli \
     && npm cache clean --force
 
-# Trae Agent (open-source, https://github.com/bytedance/trae-agent)
-# 目前已暫停安裝 — tree-sitter-languages 尚未支援 Python 3.13
-# 待上游釋出 cp313 wheel 後即可取消註解：
-# RUN pip install --no-cache-dir git+https://github.com/bytedance/trae-agent.git
+RUN pip install --no-cache-dir git+https://github.com/bytedance/trae-agent.git
 
 RUN useradd -m devuser

@@ -53,6 +53,7 @@ check "opencode"     "opencode --version"
 check "copilot"      "copilot --help"
 check "gemini"       "gemini --help"
 check "lark-cli"     "lark-cli --version"
+check "trae-cli"     "trae-cli --help"
 
 echo ""
 echo "================================"

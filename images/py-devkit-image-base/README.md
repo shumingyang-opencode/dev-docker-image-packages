@@ -1,8 +1,8 @@
 # py-devkit-image-base — Python 開發工具包基底 Image
 
-Base: `python:3.13-slim`
+Base: `python:3.12-slim`
 
-版本: `1.1.2`
+版本: `1.2.0`
 
 ## 功能
 
@@ -20,7 +20,7 @@ Base: `python:3.13-slim`
 | Python | pytest | 測試框架 |
 | Python | duckdb | 嵌入式 SQL OLAP 資料庫 |
 | AI CLI | opencode-ai, @github/copilot, @google/gemini-cli, @larksuite/cli | AI 開發助手 |
-| AI CLI | traecli (TRAE CLI) | AI Code Agent |
+| AI CLI | trae-cli (TRAE CLI) | AI Code Agent |
 
 ## 建議用途
 
