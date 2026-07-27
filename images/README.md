@@ -2,9 +2,11 @@
 
 本目錄包含所有可用的開發用 Docker Image。
 
-| Image | 版本 | 說明 |
-|-------|------|------|
-| [py-devkit-image-base](./py-devkit-image-base/) | 1.2.0 | Python 3.12 開發基底，含 AI CLI / trae-agent / duckdb / poetry / ruff / mypy / pytest |
+> 🔙 [專案根目錄](../README.md) — 快速開始、下載方式、CI 說明
+
+| Image | 版本 | Base | 預裝工具 | 詳細說明 |
+|-------|------|------|---------|---------|
+| [py-devkit-image-base](./py-devkit-image-base/) | 1.2.0 | python:3.12-slim | AI CLI × 5, poetry, ruff, pytest, duckdb | [README](./py-devkit-image-base/README.md) |
 
 ## Tags
 
@@ -44,3 +46,9 @@ mkdir images/<名稱>
 執行 OpenCode Skill:
 
 > 「build image」
+
+或使用 gh CLI：
+
+```bash
+gh workflow run build-image.yml -f image=py-devkit-image-base
+```
