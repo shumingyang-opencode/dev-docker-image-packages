@@ -90,7 +90,7 @@ jobs:
             org.opencontainers.image.revision=${{ github.sha }}
 
   test:
-    needs: build
+    needs: [build, discover]
     runs-on: ubuntu-latest
     permissions:
       contents: read
