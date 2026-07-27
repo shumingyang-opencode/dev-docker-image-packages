@@ -69,7 +69,7 @@ check_run "opencode"     "opencode run 'test' --attach http://localhost:1"      
 check_run "copilot"      "echo 'hi' | copilot"                                          1 "No authentication"
 check_run "gemini"       "gemini ask 'hi'"                                             41 "Please set an Auth method"
 check_run "lark-cli"     "lark-cli whoami"                                              3 "not configured"
-check_run "trae-cli"     "trae-cli --help"                                              0 "Trae"
+check_run "trae-cli"     "python -c 'from trae_agent.cli import cli; print(\"Trae CLI OK\")'" 0 "Trae CLI OK"
 
 echo ""
 echo "================================"

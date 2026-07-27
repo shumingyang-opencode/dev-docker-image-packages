@@ -84,7 +84,7 @@ docker run --rm ghcr.io/shumingyang-opencode/py-devkit-image-base:latest \
   bash < images/py-devkit-image-base/test-smoke.sh
 ```
 
-預期結果：13 passed, 0 failed
+預期結果：15 passed, 0 failed
 
 ### Run Test — 驗證 CLI 引擎能載入
 
