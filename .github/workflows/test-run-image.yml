@@ -1,4 +1,4 @@
-name: Test Docker Image (Run)
+name: 啟動測試：CLI 可執行 (Engine Load)
 
 on:
   workflow_dispatch:

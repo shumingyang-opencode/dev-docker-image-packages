@@ -1,4 +1,4 @@
-name: Test Docker Image
+name: Smoke 測試：CLI 已安裝 (Install Check)
 
 on:
   workflow_dispatch:
