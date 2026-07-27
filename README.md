@@ -30,11 +30,7 @@
 | `latest` | 每次 build 更新至此 tag |
 | `{version}` | 同一次 build 也會更新至此 tag，兩者指向相同內容 |
 
-使用版本號 tag 確保環境一致性：
-
-```bash
-docker pull ghcr.io/shumingyang-opencode/py-devkit-image-base:1.2.0
-```
+建議使用 `latest` tag 取得最新版本。若需鎖定特定版本的內容，可直接使用版本 tag（如 `1.2.0`），不過每次重新建置時兩者都會同步更新。
 
 ## 使用方式
 

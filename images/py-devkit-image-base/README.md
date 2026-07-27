@@ -51,11 +51,7 @@ Base: `python:3.12-slim`
 ### Pull Image
 
 ```bash
-# 最新版本
 docker pull ghcr.io/shumingyang-opencode/py-devkit-image-base:latest
-
-# 鎖定特定版本
-docker pull ghcr.io/shumingyang-opencode/py-devkit-image-base:1.2.0
 ```
 
 ### 執行容器
