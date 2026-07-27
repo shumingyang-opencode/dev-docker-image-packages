@@ -110,11 +110,11 @@ CMD ["python", "main.py"]
 gh workflow run build-image.yml -f image=py-devkit-image-base
 gh workflow run build-image.yml -f image=all
 
-# 安裝測試（指定版本）
-gh workflow run test-image.yml -f image=py-devkit-image-base -f tag=1.2.0
+# Smoke 測試（驗證安裝）
+gh workflow run test-image.yml -f image=py-devkit-image-base
 
-# 引擎測試（指定版本）
-gh workflow run test-run-image.yml -f image=py-devkit-image-base -f tag=1.2.0
+# Run 測試（驗證引擎）
+gh workflow run test-run-image.yml -f image=py-devkit-image-base
 ```
 
 > 各 Image 的測試腳本（`test-smoke.sh` / `test-run.sh`）可獨立於 CI 在本機執行，詳見各 Image 目錄下的 README。
