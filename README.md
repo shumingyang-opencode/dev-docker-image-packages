@@ -1,3 +1,7 @@
+[**繁體中文**](./README.md) · [English](./README.en.md) · [简体中文](./README.zh-CN.md)
+
+---
+
 # Dev Docker Image Packages
 
 個人開發用 Docker Image 集合，透過 GitHub Actions 自動建置並發佈至 GHCR。
@@ -156,5 +160,7 @@ bash skills/install.sh
 │       └── test-run.sh           Run test（引擎載入驗證）
 ├── skills/                   OpenCode Skills
 │   └── install.sh            安裝腳本
-└── README.md                 本檔案
+├── README.md                     繁體中文（預設）
+├── README.en.md                   English
+├── README.zh-CN.md                简体中文
 ```
