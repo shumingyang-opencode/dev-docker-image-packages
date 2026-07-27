@@ -41,14 +41,14 @@ check_run() {
 
     if [ "$exit_code" -ne "$expected_exit" ]; then
         echo -e "  ${RED}✗${NC} $name (expected exit $expected_exit, got $exit_code)"
-        echo "       output: $(echo "$output" | head -3 | tr '\n' ';')"
+        echo "       output: $(echo "$output" | head -20 | tr '\n' ';')"
         failed=$((failed + 1))
         return
     fi
 
     if ! echo "$output" | grep -qiF "$expected_msg"; then
         echo -e "  ${RED}✗${NC} $name (expected message \"$expected_msg\")"
-        echo "       output: $(echo "$output" | head -3 | tr '\n' ';')"
+        echo "       output: $(echo "$output" | head -20 | tr '\n' ';')"
         failed=$((failed + 1))
         return
     fi
