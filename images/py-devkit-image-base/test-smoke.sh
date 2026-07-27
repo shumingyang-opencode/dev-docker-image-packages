@@ -46,7 +46,7 @@ check "poetry"       "poetry --version"
 check "ruff"         "ruff --version"
 check "mypy"         "mypy --version"
 check "pytest"       "pytest --version"
-check "duckdb"       "duckdb --version"
+check "duckdb"       "python -c 'import duckdb; print(duckdb.__version__)'"
 
 section "AI CLIs"
 check "opencode"     "opencode --version"
