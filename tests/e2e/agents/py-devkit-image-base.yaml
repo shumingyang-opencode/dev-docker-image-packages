@@ -1,0 +1,27 @@
+image: py-devkit-image-base
+ghcr_repo: ghcr.io/shumingyang-opencode/py-devkit-image-base
+
+agents:
+  - name: opencode
+    binary: opencode
+    env_vars: [OPENCODE_API_KEY]
+    run_cmd: 'opencode run {prompt}'
+
+  - name: copilot
+    binary: copilot
+    env_vars: [COPILOT_GITHUB_TOKEN, GH_TOKEN, GITHUB_TOKEN]
+    run_cmd: 'echo {prompt} | copilot'
+
+  - name: gemini
+    binary: gemini
+    env_vars: [GEMINI_API_KEY]
+    run_cmd: 'echo {prompt} | gemini ask -'
+
+  - name: lark-cli
+    binary: lark-cli
+    env_vars: []
+
+  - name: trae-cli
+    binary: trae-cli
+    env_vars: [OPENAI_API_KEY, ANTHROPIC_API_KEY]
+    run_cmd: 'echo {prompt} | trae-cli'

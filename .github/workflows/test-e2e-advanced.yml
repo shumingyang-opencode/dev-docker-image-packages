@@ -1,0 +1,75 @@
+name: E2E 測試：進階 Agent Prompt (Advanced E2E)
+
+on:
+  workflow_dispatch:
+    inputs:
+      image:
+        description: |
+          Image name (matches tests/e2e/agents/<name>.yaml).
+        required: true
+        type: choice
+        options:
+          - py-devkit-image-base
+      tag:
+        description: |
+          Image tag to test (default: latest).
+        required: false
+        default: latest
+      agent:
+        description: |
+          Agent name to test (defined in the image's YAML config).
+        required: true
+      prompt:
+        description: |
+          Custom prompt to send to the agent.
+        required: false
+        default: "Say hello and introduce yourself briefly."
+      timeout:
+        description: |
+          Maximum wait time in seconds for the agent to respond.
+        required: false
+        default: 120
+
+env:
+  REGISTRY: ghcr.io
+  ORG: shumingyang-opencode
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: read
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Login to GHCR
+        uses: docker/login-action@v4
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install pyyaml pytest
+
+      - name: Run advanced E2E tests
+        env:
+          OPENCODE_API_KEY: ${{ secrets.OPENCODE_API_KEY }}
+          COPILOT_GITHUB_TOKEN: ${{ secrets.COPILOT_GITHUB_TOKEN }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          pytest tests/e2e/test_advanced.py \
+            --image ${{ inputs.image }} \
+            --tag ${{ inputs.tag }} \
+            --agent ${{ inputs.agent }} \
+            --prompt "${{ inputs.prompt }}" \
+            --timeout ${{ inputs.timeout }} \
+            -v --tb=short

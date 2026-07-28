@@ -91,6 +91,8 @@ CMD ["python", "main.py"]
 | 建置 · Smoke 测试 (Build + Smoke) | [`build-image.yml`](./.github/workflows/build-image.yml) | 手动 + 自动（每次 build） | 构建 Image → 自动运行 Smoke test |
 | Smoke 测试：CLI 已安装 (Install Check) | [`test-image.yml`](./.github/workflows/test-image.yml) | 手动按钮 | 验证指定版本的 binary 存在、可运行 |
 | 启动测试：CLI 可运行 (Engine Load) | [`test-run-image.yml`](./.github/workflows/test-run-image.yml) | 手动按钮 | 验证指定版本的 CLI 引擎能加载 |
+| **E2E 测试：基本 Agent** (Basic E2E) | [`test-e2e-basic.yml`](./.github/workflows/test-e2e-basic.yml) | 手动按钮 | 跨 Image 统一验证 Agent binary + version |
+| **E2E 测试：进阶 Prompt** (Advanced E2E) | [`test-e2e-advanced.yml`](./.github/workflows/test-e2e-advanced.yml) | 手动按钮 | 自定义 Prompt 测试 Agent 真实回应（需 API Key） |
 
 ### 手动触发 (gh CLI)
 
@@ -104,6 +106,10 @@ gh workflow run test-image.yml -f image=py-devkit-image-base
 
 # 引擎测试
 gh workflow run test-run-image.yml -f image=py-devkit-image-base
+
+# E2E 测试
+gh workflow run test-e2e-basic.yml -f image=py-devkit-image-base
+gh workflow run test-e2e-advanced.yml -f image=py-devkit-image-base -f agent=opencode -f prompt="Say hello"
 ```
 
 > 各 Image 的测试脚本（`test-smoke.sh` / `test-run.sh`）可独立于 CI 在本地运行，详见各 Image 目录下的 README。
@@ -143,6 +149,12 @@ bash skills/install.sh
 │       ├── Dockerfile            构建脚本
 │       ├── test-smoke.sh         Smoke test（安装验证）
 │       └── test-run.sh           Run test（引擎加载验证）
+├── tests/                    E2E 测试
+│   └── e2e/
+│       ├── conftest.py            共用 fixtures
+│       ├── test_basic.py          Basic E2E（无需认证）
+│       ├── test_advanced.py       Advanced E2E（需 API Key）
+│       └── agents/                各 Image 的 Agent 配置文件
 ├── skills/                   OpenCode Skills
 │   └── install.sh            安装脚本
 ├── README.md                     繁體中文（預設）

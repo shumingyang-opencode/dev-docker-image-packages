@@ -1,0 +1,91 @@
+name: E2E 測試：基本 Agent 檢查 (Basic E2E)
+
+on:
+  workflow_dispatch:
+    inputs:
+      image:
+        description: |
+          Image name (matches tests/e2e/agents/<name>.yaml).
+          Use "all" to test every configured image.
+        required: true
+        default: py-devkit-image-base
+      tag:
+        description: |
+          Image tag to test (default: latest).
+          Ignored when image=all (always uses :latest).
+        required: false
+        default: latest
+
+env:
+  REGISTRY: ghcr.io
+  ORG: shumingyang-opencode
+
+jobs:
+  discover:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.discover.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v7
+
+      - id: discover
+        run: |
+          if [ "all" = "${{ inputs.image }}" ]; then
+            FIRST=true
+            JSON='{"image":['
+            for cfg in tests/e2e/agents/*.yaml; do
+              name=$(basename "$cfg" .yaml)
+              [ -f "$cfg" ] || continue
+              if [ "$FIRST" = true ]; then
+                JSON="$JSON\"$name\""
+                FIRST=false
+              else
+                JSON="$JSON,\"$name\""
+              fi
+            done
+            JSON="$JSON]}"
+            echo "matrix=$JSON" >> "$GITHUB_OUTPUT"
+          else
+            if [ ! -f "tests/e2e/agents/${{ inputs.image }}.yaml" ]; then
+              echo "Error: tests/e2e/agents/${{ inputs.image }}.yaml not found"
+              exit 1
+            fi
+            echo "matrix={\"image\":[\"${{ inputs.image }}\"]}" >> "$GITHUB_OUTPUT"
+          fi
+
+  test:
+    needs: discover
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: read
+    strategy:
+      matrix: ${{ fromJSON(needs.discover.outputs.matrix) }}
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Login to GHCR
+        uses: docker/login-action@v4
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install pyyaml pytest
+
+      - name: Run basic E2E tests
+        run: |
+          TAG="${{ inputs.tag }}"
+          if [ "${{ inputs.image }}" = "all" ]; then
+            TAG="latest"
+          fi
+          pytest tests/e2e/test_basic.py \
+            --image ${{ matrix.image }} \
+            --tag "${TAG}" \
+            -v --tb=short

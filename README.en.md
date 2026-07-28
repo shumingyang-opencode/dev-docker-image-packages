@@ -91,6 +91,8 @@ CMD ["python", "main.py"]
 | 建置 · Smoke 測試 (Build + Smoke) | [`build-image.yml`](./.github/workflows/build-image.yml) | Manual + Auto | Build → run smoke tests |
 | Smoke 測試：CLI 已安裝 (Install Check) | [`test-image.yml`](./.github/workflows/test-image.yml) | Manual | Verify binaries are installed |
 | 啟動測試：CLI 可執行 (Engine Load) | [`test-run-image.yml`](./.github/workflows/test-run-image.yml) | Manual | Verify CLI engines load correctly |
+| **E2E: Basic Agent** (Basic E2E) | [`test-e2e-basic.yml`](./.github/workflows/test-e2e-basic.yml) | Manual | Cross-image agent binary + version check |
+| **E2E: Advanced Prompt** (Advanced E2E) | [`test-e2e-advanced.yml`](./.github/workflows/test-e2e-advanced.yml) | Manual | Custom prompt agent test (needs API keys) |
 
 ### Trigger via gh CLI
 
@@ -104,6 +106,10 @@ gh workflow run test-image.yml -f image=py-devkit-image-base
 
 # Engine load check
 gh workflow run test-run-image.yml -f image=py-devkit-image-base
+
+# E2E tests
+gh workflow run test-e2e-basic.yml -f image=py-devkit-image-base
+gh workflow run test-e2e-advanced.yml -f image=py-devkit-image-base -f agent=opencode -f prompt="Say hello"
 ```
 
 > The test scripts (`test-smoke.sh` / `test-run.sh`) can also be run locally. See each image's README for details.
@@ -143,6 +149,12 @@ bash skills/install.sh
 │       ├── Dockerfile            Build script
 │       ├── test-smoke.sh         Smoke test (install verification)
 │       └── test-run.sh           Run test (engine load verification)
+├── tests/                    E2E Tests
+│   └── e2e/
+│       ├── conftest.py            Shared fixtures
+│       ├── test_basic.py          Basic E2E (no auth)
+│       ├── test_advanced.py       Advanced E2E (needs API keys)
+│       └── agents/                Per-image agent configs
 ├── skills/                   OpenCode Skills
 │   └── install.sh            Installation script
 | README.md                    Traditional Chinese (default)
