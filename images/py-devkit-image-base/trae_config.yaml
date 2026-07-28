@@ -21,7 +21,7 @@ models:
 
 agents:
   trae_agent:
-    enable_lakeview: true
+    enable_lakeview: false
     model: default
     max_steps: 200
     tools:
