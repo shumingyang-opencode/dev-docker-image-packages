@@ -11,7 +11,7 @@ model_providers:
 models:
   default:
     model_provider: openrouter
-    model: deepseek/deepseek-v4-flash-free
+    model: deepseek/deepseek-v4-flash
     max_tokens: 4096
     temperature: 0.5
     top_p: 1
