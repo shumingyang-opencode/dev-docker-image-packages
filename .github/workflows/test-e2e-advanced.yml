@@ -36,6 +36,27 @@ on:
           Maximum wait time in seconds for the agent to respond.
         required: false
         default: 120
+      model:
+        description: |
+          LLM model to use (only for trae-cli). Select "default" to use image config.
+        required: false
+        type: choice
+        default: default
+        options:
+          - default
+          - deepseek/deepseek-v4-flash
+          - deepseek/deepseek-v4-pro
+          - deepseek/deepseek-chat
+          - deepseek/deepseek-r1
+          - openai/gpt-4o-mini
+          - openai/gpt-4o
+          - openai/o3-mini
+          - google/gemini-2.0-flash-exp
+          - google/gemini-2.5-flash
+          - google/gemini-2.5-pro
+          - anthropic/claude-3.5-sonnet
+          - anthropic/claude-opus-4
+          - meta-llama/llama-3.3-70b-instruct
       opencode_api_key:
         description: |
           OPENCODE_API_KEY (for opencode agent)
@@ -109,4 +130,5 @@ jobs:
             --agent ${{ inputs.agent }} \
             --prompt "${{ inputs.prompt }}" \
             --timeout ${{ inputs.timeout }} \
+            --model ${{ inputs.model }} \
             -v --tb=short -s

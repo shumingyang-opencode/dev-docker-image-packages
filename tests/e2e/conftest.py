@@ -12,6 +12,7 @@ def pytest_addoption(parser):
     parser.addoption("--agent", action="store", default=None)
     parser.addoption("--prompt", action="store", default=None)
     parser.addoption("--timeout", action="store", type=int, default=120)
+    parser.addoption("--model", action="store", default="default")
 
 
 def load_agent_config(image_name):
@@ -67,6 +68,11 @@ def custom_prompt(request):
 @pytest.fixture(scope="module")
 def cmd_timeout(request):
     return request.config.getoption("--timeout")
+
+
+@pytest.fixture(scope="module")
+def llm_model(request):
+    return request.config.getoption("--model")
 
 
 @pytest.fixture(scope="module")
