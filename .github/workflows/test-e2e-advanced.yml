@@ -17,8 +17,15 @@ on:
         default: latest
       agent:
         description: |
-          Agent name to test (defined in the image's YAML config).
+          Agent name to test.
         required: true
+        type: choice
+        options:
+          - opencode
+          - copilot
+          - gemini
+          - lark-cli
+          - trae-cli
       prompt:
         description: |
           Custom prompt to send to the agent.
