@@ -11,20 +11,32 @@ def test_agent_prompt_response(container_id, selected_agent, custom_prompt, cmd_
 
     cmd = run_template.replace("{prompt}", shlex.quote(custom_prompt))
 
-    result = subprocess.run(
+    proc = subprocess.Popen(
         ["docker", "exec", "-i", container_id, "bash", "-c", cmd],
-        capture_output=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
         text=True,
-        timeout=cmd_timeout,
     )
+    try:
+        stdout, stderr = proc.communicate(timeout=cmd_timeout)
+        returncode = proc.returncode
+    except subprocess.TimeoutExpired:
+        proc.kill()
+        stdout, stderr = proc.communicate()
+        returncode = -1
 
-    output = (result.stdout or "") + (result.stderr or "")
-    print(f"\n--- {selected_agent['name']} Response (exit={result.returncode}) ---")
+    output = (stdout or "") + (stderr or "")
+    print(f"\n--- {selected_agent['name']} Response (exit={returncode}) ---")
     print(output[:3000])
     print("--- End ---")
 
-    assert result.returncode == 0, (
-        f"Agent exited with code {result.returncode}\n"
-        f"stderr: {result.stderr[:1000]}"
+    if returncode == -1:
+        pytest.fail(
+            f"Agent timed out after {cmd_timeout}s\n"
+            f"partial output: {output[:1000]}"
+        )
+    assert returncode == 0, (
+        f"Agent exited with code {returncode}\n"
+        f"stderr: {stderr[:1000]}"
     )
-    assert result.stdout.strip(), "Agent produced no output"
+    assert stdout.strip(), "Agent produced no output"
