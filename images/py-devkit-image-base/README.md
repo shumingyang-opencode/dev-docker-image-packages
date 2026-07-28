@@ -4,7 +4,9 @@
 
 Base: `python:3.12-slim`
 
-版本: `1.2.0`
+版本: `1.3.0`
+
+內建 trae-cli 設定檔：`/etc/trae/trae_config.yaml`（支援 OpenRouter / 豆包，可透過 `TRAE_CONFIG_FILE` 覆蓋）
 
 ## 功能
 
@@ -26,7 +28,7 @@ Base: `python:3.12-slim`
 | AI CLI | GitHub Copilot | `copilot` | AI Code Agent |
 | AI CLI | Google Gemini CLI | `gemini` | AI 開發助手 |
 | AI CLI | Lark CLI | `lark-cli` | 飛書開發工具 |
-| AI CLI | Trae Agent | `trae-cli` | AI Code Agent |
+| AI CLI | Trae Agent | `trae-cli` | AI Code Agent（內建 `/etc/trae/trae_config.yaml`） |
 
 ### AI CLI 認證方式
 
@@ -38,7 +40,7 @@ Base: `python:3.12-slim`
 | copilot | `COPILOT_GITHUB_TOKEN` / `GH_TOKEN` / `GITHUB_TOKEN` |
 | gemini | `GEMINI_API_KEY` / `GOOGLE_GENAI_USE_VERTEXAI` |
 | lark-cli | 執行 `lark-cli config init --new` 互動式認證 |
-| trae-cli | `OPENAI_API_KEY` / `ANTHROPIC_API_KEY`（依 provider） |
+| trae-cli | `OPENROUTER_API_KEY` / `DOUBAO_API_KEY` / `OPENAI_API_KEY` / `ANTHROPIC_API_KEY`（依 model_provider） |
 
 ## 建議用途
 

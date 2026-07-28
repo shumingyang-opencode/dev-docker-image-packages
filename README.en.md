@@ -10,7 +10,7 @@ A collection of personal Docker images, automatically built and published to GHC
 
 | Image | Latest Version | Base | Description | Docs |
 |-------|---------------|------|-------------|------|
-| [py-devkit-image-base](./images/py-devkit-image-base/) | 1.2.0 | python:3.12-slim | Python dev environment (AI CLIs, trae-agent) | [README](./images/py-devkit-image-base/README.md) |
+| [py-devkit-image-base](./images/py-devkit-image-base/) | 1.3.0 | python:3.12-slim | Python dev environment (AI CLIs, trae-agent, trae-cli config) | [README](./images/py-devkit-image-base/README.md) |
 
 > For a full image index, see [images/README.md](./images/README.md).
 
@@ -23,7 +23,7 @@ Each image is published to GHCR with the following tags:
 | `latest` | Updated on every build |
 | `{version}` | Also updated on every build — both tags point to the same content |
 
-Use `latest` for the most up-to-date version. Version tags (e.g., `1.2.0`) are available but are updated simultaneously with each build.
+Use `latest` for the most up-to-date version. Version tags (e.g., `1.3.0`) are available but are updated simultaneously with each build.
 
 ## Usage
 
@@ -92,7 +92,7 @@ CMD ["python", "main.py"]
 | Smoke 測試：CLI 已安裝 (Install Check) | [`test-image.yml`](./.github/workflows/test-image.yml) | Manual | Verify binaries are installed |
 | 啟動測試：CLI 可執行 (Engine Load) | [`test-run-image.yml`](./.github/workflows/test-run-image.yml) | Manual | Verify CLI engines load correctly |
 | **E2E: Basic Agent** (Basic E2E) | [`test-e2e-basic.yml`](./.github/workflows/test-e2e-basic.yml) | Manual | Cross-image agent binary + version check |
-| **E2E: Advanced Prompt** (Advanced E2E) | [`test-e2e-advanced.yml`](./.github/workflows/test-e2e-advanced.yml) | Manual | Custom prompt agent test (needs API keys) |
+| **E2E: Advanced Prompt** (Advanced E2E) | [`test-e2e-advanced.yml`](./.github/workflows/test-e2e-advanced.yml) | Manual | Custom prompt + model selection (free models) agent test (needs API keys) |
 
 ### Trigger via gh CLI
 
@@ -107,12 +107,77 @@ gh workflow run test-image.yml -f image=py-devkit-image-base
 # Engine load check
 gh workflow run test-run-image.yml -f image=py-devkit-image-base
 
-# E2E tests
+# E2E tests (Basic)
 gh workflow run test-e2e-basic.yml -f image=py-devkit-image-base
-gh workflow run test-e2e-advanced.yml -f image=py-devkit-image-base -f agent=opencode -f prompt="Say hello"
+
+# E2E tests (Advanced — use free model)
+gh workflow run test-e2e-advanced.yml \
+  -f image=py-devkit-image-base \
+  -f agent=trae-cli \
+  -f prompt="Say hello" \
+  -f model="google/gemma-4-26b-a4b-it:free" \
+  -f openrouter_api_key=sk-or-...
 ```
 
 > The test scripts (`test-smoke.sh` / `test-run.sh`) can also be run locally. See each image's README for details.
+
+## E2E Tests
+
+The project provides two levels of E2E testing in [`tests/e2e/`](./tests/e2e/README.md):
+
+| Test | Language | Needs API Key | Description |
+|------|----------|--------------|-------------|
+| **Basic E2E** | Python + pytest | No | Cross-image agent binary + `--version`/`--help` check |
+| **Advanced E2E** | Python + pytest | Yes (per agent) | Custom prompt agent test with selectable LLM model |
+
+### Basic E2E
+
+Pulls the published image and verifies each agent binary exists and is executable. No authentication required.
+
+```bash
+gh workflow run test-e2e-basic.yml -f image=py-devkit-image-base
+```
+
+### Advanced E2E
+
+Pulls the published image, runs a custom prompt through the selected agent using your API key, and validates the response.
+
+```bash
+gh workflow run test-e2e-advanced.yml \
+  -f image=py-devkit-image-base \
+  -f agent=trae-cli \
+  -f prompt="Write a Python hello world" \
+  -f model="google/gemma-4-26b-a4b-it:free" \
+  -f openrouter_api_key=sk-or-...
+```
+
+Parameters:
+
+| Parameter | Description |
+|-----------|-------------|
+| `image` | Image name (dropdown) |
+| `tag` | Image tag (default `latest`) |
+| `agent` | Agent to test (dropdown) |
+| `prompt` | Custom prompt text |
+| `model` | LLM model selector (dropdown, free OpenRouter models only) |
+| `timeout` | Timeout in seconds (default 120) |
+| `*_api_key` | Agent-specific API keys (manual input, not stored as secrets) |
+
+### Run Locally
+
+```bash
+# Basic E2E
+pytest tests/e2e/test_basic.py --image py-devkit-image-base --tag latest -v
+
+# Advanced E2E
+export OPENROUTER_API_KEY=sk-or-...
+pytest tests/e2e/test_advanced.py \
+  --image py-devkit-image-base \
+  --agent trae-cli \
+  --prompt "Say hello" \
+  --model "google/gemma-4-26b-a4b-it:free" \
+  -v --tb=short -s
+```
 
 ## Skills (OpenCode Integration)
 
@@ -138,10 +203,14 @@ bash skills/install.sh
 ## Project Structure
 
 ```
+├── docs/                    Development docs
+│   └── trae-cli-auth.md          trae-cli authentication guide
 ├── .github/workflows/        GitHub Actions workflows
 │   ├── build-image.yml           Build + Smoke test
 │   ├── test-image.yml            Manual smoke test
-│   └── test-run-image.yml        Manual run test
+│   ├── test-run-image.yml        Manual run test
+│   ├── test-e2e-basic.yml        E2E Basic (no auth)
+│   └── test-e2e-advanced.yml     E2E Advanced (needs API keys)
 ├── images/                   Docker image definitions
 │   ├── README.md                 Image index
 │   └── <name>/
@@ -154,7 +223,8 @@ bash skills/install.sh
 │       ├── conftest.py            Shared fixtures
 │       ├── test_basic.py          Basic E2E (no auth)
 │       ├── test_advanced.py       Advanced E2E (needs API keys)
-│       └── agents/                Per-image agent configs
+│       ├── agents/                Per-image agent configs
+│       └── README.md              E2E test documentation
 ├── skills/                   OpenCode Skills
 │   └── install.sh            Installation script
 | README.md                    Traditional Chinese (default)

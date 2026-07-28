@@ -6,7 +6,7 @@
 
 | Image | 版本 | Base | 預裝工具 | 詳細說明 |
 |-------|------|------|---------|---------|
-| [py-devkit-image-base](./py-devkit-image-base/) | 1.2.0 | python:3.12-slim | AI CLI × 5, poetry, ruff, pytest, duckdb | [README](./py-devkit-image-base/README.md) |
+| [py-devkit-image-base](./py-devkit-image-base/) | 1.3.0 | python:3.12-slim | AI CLI × 5, poetry, ruff, pytest, duckdb, trae-cli config | [README](./py-devkit-image-base/README.md) |
 
 ## Tags
 

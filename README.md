@@ -12,6 +12,7 @@
 - [Image Tags](#image-tags)
 - [使用方式](#使用方式)
 - [CI / GitHub Actions Workflows](#ci--github-actions-workflows)
+- [E2E 測試](#e2e-測試)
 - [Skills（OpenCode 整合）](#skillsopencode-整合)
 - [專案目錄結構](#專案目錄結構)
 
@@ -21,7 +22,7 @@
 
 | Image | 最新版本 | Base | 用途 | 說明文件 |
 |-------|---------|------|------|---------|
-| [py-devkit-image-base](./images/py-devkit-image-base/) | 1.2.0 | python:3.12-slim | Python 開發基底（含 AI CLI、trae-agent） | [README](./images/py-devkit-image-base/README.md) |
+| [py-devkit-image-base](./images/py-devkit-image-base/) | 1.3.0 | python:3.12-slim | Python 開發基底（含 AI CLI、trae-agent、trae-cli 設定檔） | [README](./images/py-devkit-image-base/README.md) |
 
 > 詳細 Image 索引請見 [images/README.md](./images/README.md)。
 
@@ -34,7 +35,7 @@
 | `latest` | 每次 build 更新至此 tag |
 | `{version}` | 同一次 build 也會更新至此 tag，兩者指向相同內容 |
 
-建議使用 `latest` tag 取得最新版本。若需鎖定特定版本的內容，可直接使用版本 tag（如 `1.2.0`），不過每次重新建置時兩者都會同步更新。
+建議使用 `latest` tag 取得最新版本。若需鎖定特定版本的內容，可直接使用版本 tag（如 `1.3.0`），不過每次重新建置時兩者都會同步更新。
 
 ## 使用方式
 
@@ -45,7 +46,7 @@
 docker pull ghcr.io/shumingyang-opencode/py-devkit-image-base:latest
 
 # 指定版本
-docker pull ghcr.io/shumingyang-opencode/py-devkit-image-base:1.2.0
+docker pull ghcr.io/shumingyang-opencode/py-devkit-image-base:1.3.0
 ```
 
 ### 執行容器
@@ -107,7 +108,7 @@ CMD ["python", "main.py"]
 | Smoke 測試：CLI 已安裝 (Install Check) | [`test-image.yml`](./.github/workflows/test-image.yml) | 手動按鈕 | 驗證指定版本的 binary 存在、可執行 |
 | 啟動測試：CLI 可執行 (Engine Load) | [`test-run-image.yml`](./.github/workflows/test-run-image.yml) | 手動按鈕 | 驗證指定版本的 CLI 引擎能載入 |
 | **E2E 測試：基本 Agent** (Basic E2E) | [`test-e2e-basic.yml`](./.github/workflows/test-e2e-basic.yml) | 手動按鈕 | 跨 Image 統一驗證 Agent binary + version |
-| **E2E 測試：進階 Prompt** (Advanced E2E) | [`test-e2e-advanced.yml`](./.github/workflows/test-e2e-advanced.yml) | 手動按鈕 | 自訂 Prompt 測試 Agent 真實回應（需 API Key） |
+| **E2E 測試：進階 Prompt** (Advanced E2E) | [`test-e2e-advanced.yml`](./.github/workflows/test-e2e-advanced.yml) | 手動按鈕 | 自訂 Prompt + 選 Model（免費模型）測試 Agent 真實回應（需 API Key） |
 
 ### 手動觸發 (gh CLI)
 
@@ -122,12 +123,77 @@ gh workflow run test-image.yml -f image=py-devkit-image-base
 # Run 測試（驗證引擎）
 gh workflow run test-run-image.yml -f image=py-devkit-image-base
 
-# E2E 測試
+# E2E 測試（Basic）
 gh workflow run test-e2e-basic.yml -f image=py-devkit-image-base
-gh workflow run test-e2e-advanced.yml -f image=py-devkit-image-base -f agent=opencode -f prompt="Say hello"
+
+# E2E 測試（Advanced — 使用免費模型）
+gh workflow run test-e2e-advanced.yml \
+  -f image=py-devkit-image-base \
+  -f agent=trae-cli \
+  -f prompt="Say hello" \
+  -f model="google/gemma-4-26b-a4b-it:free" \
+  -f openrouter_api_key=sk-or-...
 ```
 
 > 各 Image 的測試腳本（`test-smoke.sh` / `test-run.sh`）可獨立於 CI 在本機執行，詳見各 Image 目錄下的 README。
+
+## E2E 測試
+
+專案提供兩層 E2E 測試，位於 [`tests/e2e/`](./tests/e2e/README.md)：
+
+| 測試 | 語言 | 需 API Key | 說明 |
+|------|------|-----------|------|
+| **Basic E2E** | Python + pytest | 否 | 跨 Image 統一驗證 Agent binary + `--version`/`--help` |
+| **Advanced E2E** | Python + pytest | 是（視 Agent） | 自訂 Prompt 測試 Agent 真實回應，可選 LLM Model |
+
+### Basic E2E
+
+拉取已發佈的 Image，逐一驗證每個 Agent 的 binary 存在且可執行。無需任何認證。
+
+```bash
+gh workflow run test-e2e-basic.yml -f image=py-devkit-image-base
+```
+
+### Advanced E2E
+
+拉取已發佈的 Image，使用你提供的 API Key 對指定的 Agent 發送自訂 Prompt，驗證回應。
+
+```bash
+gh workflow run test-e2e-advanced.yml \
+  -f image=py-devkit-image-base \
+  -f agent=trae-cli \
+  -f prompt="Write a Python hello world" \
+  -f model="google/gemma-4-26b-a4b-it:free" \
+  -f openrouter_api_key=sk-or-...
+```
+
+支援參數：
+
+| 參數 | 說明 |
+|------|------|
+| `image` | Image 名稱（下拉選單） |
+| `tag` | Image tag（預設 `latest`） |
+| `agent` | 要測試的 Agent（下拉選單） |
+| `prompt` | 自訂提示詞 |
+| `model` | LLM Model 選擇（下拉，僅列出 OpenRouter 免費模型） |
+| `timeout` | 超時秒數（預設 120） |
+| `*_api_key` | 各 Agent 對應的 API Key（手動輸入，不存於 Secrets） |
+
+### 本機執行
+
+```bash
+# Basic E2E
+pytest tests/e2e/test_basic.py --image py-devkit-image-base --tag latest -v
+
+# Advanced E2E
+export OPENROUTER_API_KEY=sk-or-...
+pytest tests/e2e/test_advanced.py \
+  --image py-devkit-image-base \
+  --agent trae-cli \
+  --prompt "Say hello" \
+  --model "google/gemma-4-26b-a4b-it:free" \
+  -v --tb=short -s
+```
 
 ## Skills（OpenCode 整合）
 
@@ -153,10 +219,14 @@ bash skills/install.sh
 ## 專案目錄結構
 
 ```
+├── docs/                    開發文件
+│   └── trae-cli-auth.md           trae-cli 認證說明
 ├── .github/workflows/        GitHub Actions workflow
 │   ├── build-image.yml           建置 + Smoke 測試
 │   ├── test-image.yml            手動 Smoke 測試
-│   └── test-run-image.yml        手動 Run 測試
+│   ├── test-run-image.yml        手動 Run 測試
+│   ├── test-e2e-basic.yml        E2E Basic（無需認證）
+│   └── test-e2e-advanced.yml     E2E Advanced（需 API Key）
 ├── images/                   Docker Image 定義
 │   ├── README.md                 索引（所有 Image 列表）
 │   └── <name>/
@@ -169,7 +239,8 @@ bash skills/install.sh
 │       ├── conftest.py            共用 fixtures
 │       ├── test_basic.py          Basic E2E（無需認證）
 │       ├── test_advanced.py       Advanced E2E（需 API Key）
-│       └── agents/                各 Image 的 Agent 設定檔
+│       ├── agents/                各 Image 的 Agent 設定檔
+│       └── README.md              E2E 測試說明
 ├── skills/                   OpenCode Skills
 │   └── install.sh            安裝腳本
 ├── README.md                     繁體中文（預設）
