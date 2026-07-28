@@ -15,7 +15,7 @@ agents:
   - name: gemini
     binary: gemini
     env_vars: [GEMINI_API_KEY]
-    run_cmd: 'echo {prompt} | gemini ask -'
+    run_cmd: 'GEMINI_CLI_TRUST_WORKSPACE=true echo {prompt} | gemini ask -'
 
   - name: lark-cli
     binary: lark-cli
