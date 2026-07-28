@@ -14,3 +14,7 @@ models:
     model: deepseek/deepseek-v4-flash-free
     max_tokens: 4096
     temperature: 0.5
+    top_p: 1
+    top_k: 0
+    parallel_tool_calls: true
+    max_retries: 10
