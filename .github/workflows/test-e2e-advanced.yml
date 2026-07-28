@@ -38,25 +38,22 @@ on:
         default: 120
       model:
         description: |
-          LLM model to use (only for trae-cli). Select "default" to use image config.
+          LLM model (only for trae-cli). Only :free models listed (no OpenRouter credits needed).
+          Select "default" to use image config.
         required: false
         type: choice
         default: default
         options:
           - default
-          - deepseek/deepseek-v4-flash
-          - deepseek/deepseek-v4-pro
-          - deepseek/deepseek-chat
-          - deepseek/deepseek-r1
-          - openai/gpt-4o-mini
-          - openai/gpt-4o
-          - openai/o3-mini
-          - google/gemini-2.0-flash-exp
-          - google/gemini-2.5-flash
-          - google/gemini-2.5-pro
-          - anthropic/claude-3.5-sonnet
-          - anthropic/claude-opus-4
-          - meta-llama/llama-3.3-70b-instruct
+          - google/gemma-4-26b-a4b-it:free
+          - google/gemma-4-31b-it:free
+          - nvidia/nemotron-3-nano-30b-a3b:free
+          - nvidia/nemotron-3-super-120b-a12b:free
+          - nvidia/nemotron-3-ultra-550b-a55b:free
+          - cohere/north-mini-code:free
+          - inclusionai/ling-3.0-flash:free
+          - openai/gpt-oss-20b:free
+          - poolside/laguna-m.1:free
       opencode_api_key:
         description: |
           OPENCODE_API_KEY (for opencode agent)
