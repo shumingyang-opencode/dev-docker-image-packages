@@ -29,6 +29,26 @@ on:
           Maximum wait time in seconds for the agent to respond.
         required: false
         default: 120
+      opencode_api_key:
+        description: |
+          OPENCODE_API_KEY (for opencode agent)
+        required: false
+      copilot_token:
+        description: |
+          COPILOT_GITHUB_TOKEN (for copilot agent)
+        required: false
+      gemini_api_key:
+        description: |
+          GEMINI_API_KEY (for gemini agent)
+        required: false
+      openai_api_key:
+        description: |
+          OPENAI_API_KEY (for trae-cli agent)
+        required: false
+      anthropic_api_key:
+        description: |
+          ANTHROPIC_API_KEY (for trae-cli agent)
+        required: false
 
 env:
   REGISTRY: ghcr.io
@@ -60,11 +80,11 @@ jobs:
 
       - name: Run advanced E2E tests
         env:
-          OPENCODE_API_KEY: ${{ secrets.OPENCODE_API_KEY }}
-          COPILOT_GITHUB_TOKEN: ${{ secrets.COPILOT_GITHUB_TOKEN }}
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          OPENCODE_API_KEY: ${{ inputs.opencode_api_key }}
+          COPILOT_GITHUB_TOKEN: ${{ inputs.copilot_token }}
+          GEMINI_API_KEY: ${{ inputs.gemini_api_key }}
+          OPENAI_API_KEY: ${{ inputs.openai_api_key }}
+          ANTHROPIC_API_KEY: ${{ inputs.anthropic_api_key }}
         run: |
           pytest tests/e2e/test_advanced.py \
             --image ${{ inputs.image }} \
