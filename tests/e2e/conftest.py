@@ -77,9 +77,11 @@ def llm_model(request):
 
 @pytest.fixture(scope="module")
 def check_env_vars(selected_agent):
-    missing = [v for v in selected_agent.get("env_vars", []) if v not in os.environ]
-    if missing:
-        pytest.skip(f"Required env vars not set: {', '.join(missing)}")
+    env_vars = selected_agent.get("env_vars", [])
+    if not env_vars:
+        return
+    if not any(v in os.environ for v in env_vars):
+        pytest.skip(f"None of the required env vars are set: {', '.join(env_vars)}")
 
 
 @pytest.fixture(scope="module")
