@@ -72,7 +72,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: "3.12"
 
@@ -88,4 +88,4 @@ jobs:
           pytest tests/e2e/test_basic.py \
             --image ${{ matrix.image }} \
             --tag "${TAG}" \
-            -v --tb=short
+            -v --tb=short -s

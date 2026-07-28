@@ -18,6 +18,11 @@ def test_agent_prompt_response(container_id, selected_agent, custom_prompt, cmd_
         timeout=cmd_timeout,
     )
 
+    output = (result.stdout or "") + (result.stderr or "")
+    print(f"\n--- {selected_agent['name']} Response (exit={result.returncode}) ---")
+    print(output[:3000])
+    print("--- End ---")
+
     assert result.returncode == 0, (
         f"Agent exited with code {result.returncode}\n"
         f"stderr: {result.stderr[:1000]}"

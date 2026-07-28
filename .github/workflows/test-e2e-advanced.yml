@@ -78,7 +78,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: "3.12"
 
@@ -99,4 +99,4 @@ jobs:
             --agent ${{ inputs.agent }} \
             --prompt "${{ inputs.prompt }}" \
             --timeout ${{ inputs.timeout }} \
-            -v --tb=short
+            -v --tb=short -s
