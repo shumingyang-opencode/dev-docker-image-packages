@@ -38,4 +38,7 @@ RUN npm install -g \
 RUN pip install --no-cache-dir docker pexpect \
     && pip install --no-cache-dir git+https://github.com/bytedance/trae-agent.git
 
+COPY trae_config.yaml /etc/trae/trae_config.yaml
+ENV TRAE_CONFIG_FILE=/etc/trae/trae_config.yaml
+
 RUN useradd -m devuser

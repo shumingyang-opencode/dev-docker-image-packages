@@ -1,0 +1,16 @@
+model_providers:
+  openrouter:
+    api_key: ${OPENROUTER_API_KEY}
+    provider: openai
+    base_url: https://openrouter.ai/api/v1
+  doubao:
+    api_key: ${DOUBAO_API_KEY}
+    provider: openai
+    base_url: https://ark.cn-beijing.volces.com/api/v3/
+
+models:
+  default:
+    model_provider: openrouter
+    model: deepseek/deepseek-v4-flash-free
+    max_tokens: 4096
+    temperature: 0.5
