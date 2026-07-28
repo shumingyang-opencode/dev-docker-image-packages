@@ -56,6 +56,14 @@ on:
         description: |
           ANTHROPIC_API_KEY (for trae-cli agent)
         required: false
+      openrouter_api_key:
+        description: |
+          OPENROUTER_API_KEY (for trae-cli agent)
+        required: false
+      doubao_api_key:
+        description: |
+          DOUBAO_API_KEY (for trae-cli via 豆包)
+        required: false
 
 env:
   REGISTRY: ghcr.io
@@ -92,6 +100,8 @@ jobs:
           GEMINI_API_KEY: ${{ inputs.gemini_api_key }}
           OPENAI_API_KEY: ${{ inputs.openai_api_key }}
           ANTHROPIC_API_KEY: ${{ inputs.anthropic_api_key }}
+          OPENROUTER_API_KEY: ${{ inputs.openrouter_api_key }}
+          DOUBAO_API_KEY: ${{ inputs.doubao_api_key }}
         run: |
           pytest tests/e2e/test_advanced.py \
             --image ${{ inputs.image }} \

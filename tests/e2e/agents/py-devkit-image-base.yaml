@@ -23,5 +23,5 @@ agents:
 
   - name: trae-cli
     binary: trae-cli
-    env_vars: [OPENAI_API_KEY, ANTHROPIC_API_KEY]
+    env_vars: [OPENAI_API_KEY, ANTHROPIC_API_KEY, OPENROUTER_API_KEY, DOUBAO_API_KEY]
     run_cmd: 'echo {prompt} | trae-cli'
