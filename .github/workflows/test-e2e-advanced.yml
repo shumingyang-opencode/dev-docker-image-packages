@@ -98,7 +98,7 @@ jobs:
           OPENCODE_API_KEY: ${{ inputs.opencode_api_key }}
           COPILOT_GITHUB_TOKEN: ${{ inputs.copilot_token }}
           GEMINI_API_KEY: ${{ inputs.gemini_api_key }}
-          OPENAI_API_KEY: ${{ inputs.openai_api_key }}
+          OPENAI_API_KEY: ${{ inputs.openai_api_key || inputs.openrouter_api_key }}
           ANTHROPIC_API_KEY: ${{ inputs.anthropic_api_key }}
           OPENROUTER_API_KEY: ${{ inputs.openrouter_api_key }}
           DOUBAO_API_KEY: ${{ inputs.doubao_api_key }}
