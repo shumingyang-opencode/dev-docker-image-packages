@@ -18,3 +18,14 @@ models:
     top_k: 0
     parallel_tool_calls: true
     max_retries: 10
+
+agents:
+  trae_agent:
+    enable_lakeview: true
+    model: default
+    max_steps: 200
+    tools:
+      - bash
+      - str_replace_based_edit_tool
+      - sequentialthinking
+      - task_done
