@@ -7,6 +7,8 @@
 ![GitHub Actions Workflow](https://img.shields.io/github/actions/workflow/status/shumingyang-opencode/dev-docker-image-packages/build-image.yml)
 ![Last Commit](https://img.shields.io/github/last-commit/shumingyang-opencode/dev-docker-image-packages)
 ![License](https://img.shields.io/badge/license-MIT-blue)
+![Repo Size](https://img.shields.io/github/repo-size/shumingyang-opencode/dev-docker-image-packages)
+![Top Language](https://img.shields.io/github/languages/top/shumingyang-opencode/dev-docker-image-packages)
 
 个人开发用 Docker Image 集合，通过 GitHub Actions 自动构建并发布至 GHCR。
 
