@@ -23,7 +23,6 @@ on:
         options:
           - opencode
           - copilot
-          - lark-cli
           - trae-cli
       prompt:
         description: |
