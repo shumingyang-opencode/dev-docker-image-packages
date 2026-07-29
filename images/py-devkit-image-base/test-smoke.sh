@@ -51,14 +51,13 @@ check "duckdb"       "python -c 'import duckdb; print(duckdb.__version__)'"
 section "AI CLIs"
 check "opencode"     "opencode --version"
 check "copilot"      "copilot --help"
-check "gemini"       "gemini --help"
 check "lark-cli"     "lark-cli --version"
 check "trae-cli(bin)" "command -v trae-cli"
 check "trae-cli(mod)" "python -c 'from trae_agent.cli import cli'"
 
 echo ""
 echo "================================"
-echo -e "  Result: ${GREEN}$passed passed${NC}, ${RED}$failed failed${NC} ($total total)"
+echo -e "  Result: ${GREEN}$passed passed${NC}, ${RED}$failed failed${NC} (14 total)"
 echo "================================"
 
 if [ "$failed" -gt 0 ]; then

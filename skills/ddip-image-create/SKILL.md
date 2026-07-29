@@ -45,7 +45,6 @@ Based on the purpose, suggest and let the user confirm each category:
 ```
 ☐ OpenCode CLI       (npm i -g opencode-ai)
 ☐ GitHub Copilot CLI (npm i -g @github/copilot)
-☐ Google Gemini CLI  (npm i -g @google/gemini-cli)
 ☐ Lark CLI           (npm i -g @larksuite/cli)
 ☐ Trae CLI           (sh -c "$(curl -L https://trae.cn/trae-cli/install.sh)")
 ```

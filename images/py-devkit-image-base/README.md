@@ -4,7 +4,7 @@
 
 Base: `python:3.12-slim`
 
-版本: `1.3.0`
+版本: `1.4.0`
 
 內建 trae-cli 設定檔：`/etc/trae/trae_config.yaml`（支援 OpenRouter / 豆包，可透過 `TRAE_CONFIG_FILE` 覆蓋）
 
@@ -26,7 +26,6 @@ Base: `python:3.12-slim`
 | Python | duckdb | duckdb (Python library) | 嵌入式 SQL OLAP 資料庫 |
 | AI CLI | OpenCode | `opencode` | AI 開發助手 |
 | AI CLI | GitHub Copilot | `copilot` | AI Code Agent |
-| AI CLI | Google Gemini CLI | `gemini` | AI 開發助手 |
 | AI CLI | Lark CLI | `lark-cli` | 飛書開發工具 |
 | AI CLI | Trae Agent | `trae-cli` | AI Code Agent（內建 `/etc/trae/trae_config.yaml`） |
 
@@ -38,7 +37,6 @@ Base: `python:3.12-slim`
 |-----|---------------------|
 | opencode | `OPENCODE_API_KEY` |
 | copilot | `COPILOT_GITHUB_TOKEN` / `GH_TOKEN` / `GITHUB_TOKEN` |
-| gemini | `GEMINI_API_KEY` / `GOOGLE_GENAI_USE_VERTEXAI` |
 | lark-cli | 執行 `lark-cli config init --new` 互動式認證 |
 | trae-cli | `OPENROUTER_API_KEY` / `DOUBAO_API_KEY` / `OPENAI_API_KEY` / `ANTHROPIC_API_KEY`（依 model_provider） |
 
@@ -71,7 +69,6 @@ docker run --rm -it -v $(pwd):/workspace ghcr.io/shumingyang-opencode/py-devkit-
 # 傳遞 API Key（給 AI CLI 使用）
 docker run --rm -it \
   -e OPENCODE_API_KEY=your_key \
-  -e GEMINI_API_KEY=your_key \
   -e COPILOT_GITHUB_TOKEN=your_token \
   -v $(pwd):/workspace \
   ghcr.io/shumingyang-opencode/py-devkit-image-base:latest bash
@@ -100,7 +97,7 @@ docker run --rm ghcr.io/shumingyang-opencode/py-devkit-image-base:latest \
   bash < images/py-devkit-image-base/test-smoke.sh
 ```
 
-預期結果：15 passed, 0 failed
+預期結果：14 passed, 0 failed
 
 ### Run Test — 驗證 CLI 引擎能載入
 
@@ -111,4 +108,4 @@ docker run --rm -i ghcr.io/shumingyang-opencode/py-devkit-image-base:latest \
   bash < images/py-devkit-image-base/test-run.sh
 ```
 
-預期結果：5 passed, 0 failed
+預期結果：4 passed, 0 failed

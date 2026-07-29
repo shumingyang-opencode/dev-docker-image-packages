@@ -1,5 +1,5 @@
 FROM python:3.12-slim
-LABEL org.opencontainers.image.version="1.3.0"
+LABEL org.opencontainers.image.version="1.4.0"
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV LANG=C.UTF-8
@@ -31,7 +31,6 @@ RUN pip install --no-cache-dir --upgrade pip \
 RUN npm install -g \
     opencode-ai \
     @github/copilot \
-    @google/gemini-cli \
     @larksuite/cli \
     && npm cache clean --force
 

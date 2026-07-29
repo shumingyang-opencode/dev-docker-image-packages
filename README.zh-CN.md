@@ -10,7 +10,7 @@
 
 | Image | 最新版本 | Base | 用途 | 说明文档 |
 |-------|---------|------|------|---------|
-| [py-devkit-image-base](./images/py-devkit-image-base/) | 1.3.0 | python:3.12-slim | Python 开发环境（含 AI CLI、trae-agent、trae-cli 配置文件） | [README](./images/py-devkit-image-base/README.md) |
+| [py-devkit-image-base](./images/py-devkit-image-base/) | 1.4.0 | python:3.12-slim | Python 开发环境（含 AI CLI、trae-agent、trae-cli 配置文件） | [README](./images/py-devkit-image-base/README.md) |
 
 > 详细 Image 索引请见 [images/README.md](./images/README.md)。
 
@@ -23,7 +23,7 @@
 | `latest` | 每次 build 更新至此 tag |
 | `{version}` | 同一次 build 也会更新至此 tag，两者指向相同内容 |
 
-建议使用 `latest` tag 获取最新版本。版本 tag（如 `1.3.0`）亦可使用，但每次重新构建时两者会同步更新。
+建议使用 `latest` tag 获取最新版本。版本 tag（如 `1.4.0`）亦可使用，但每次重新构建时两者会同步更新。
 
 ## 使用方式
 
@@ -48,7 +48,6 @@ docker run --rm -it -v $(pwd):/workspace ghcr.io/shumingyang-opencode/py-devkit-
 # 传递 AI CLI 所需的 credentials
 docker run --rm -it \
   -e OPENCODE_API_KEY=your_key \
-  -e GEMINI_API_KEY=your_key \
   -e COPILOT_GITHUB_TOKEN=your_token \
   -v $(pwd):/workspace \
   ghcr.io/shumingyang-opencode/py-devkit-image-base:latest bash
@@ -65,7 +64,6 @@ services:
       - .:/workspace
     environment:
       - OPENCODE_API_KEY=${OPENCODE_API_KEY:-}
-      - GEMINI_API_KEY=${GEMINI_API_KEY:-}
       - COPILOT_GITHUB_TOKEN=${COPILOT_GITHUB_TOKEN:-}
     working_dir: /workspace
     stdin_open: true

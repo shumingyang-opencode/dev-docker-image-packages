@@ -10,7 +10,7 @@ A collection of personal Docker images, automatically built and published to GHC
 
 | Image | Latest Version | Base | Description | Docs |
 |-------|---------------|------|-------------|------|
-| [py-devkit-image-base](./images/py-devkit-image-base/) | 1.3.0 | python:3.12-slim | Python dev environment (AI CLIs, trae-agent, trae-cli config) | [README](./images/py-devkit-image-base/README.md) |
+| [py-devkit-image-base](./images/py-devkit-image-base/) | 1.4.0 | python:3.12-slim | Python dev environment (AI CLIs, trae-agent, trae-cli config) | [README](./images/py-devkit-image-base/README.md) |
 
 > For a full image index, see [images/README.md](./images/README.md).
 
@@ -23,7 +23,7 @@ Each image is published to GHCR with the following tags:
 | `latest` | Updated on every build |
 | `{version}` | Also updated on every build — both tags point to the same content |
 
-Use `latest` for the most up-to-date version. Version tags (e.g., `1.3.0`) are available but are updated simultaneously with each build.
+Use `latest` for the most up-to-date version. Version tags (e.g., `1.4.0`) are available but are updated simultaneously with each build.
 
 ## Usage
 
@@ -48,7 +48,6 @@ docker run --rm -it -v $(pwd):/workspace ghcr.io/shumingyang-opencode/py-devkit-
 # Pass API keys for AI CLIs
 docker run --rm -it \
   -e OPENCODE_API_KEY=your_key \
-  -e GEMINI_API_KEY=your_key \
   -e COPILOT_GITHUB_TOKEN=your_token \
   -v $(pwd):/workspace \
   ghcr.io/shumingyang-opencode/py-devkit-image-base:latest bash
@@ -65,7 +64,6 @@ services:
       - .:/workspace
     environment:
       - OPENCODE_API_KEY=${OPENCODE_API_KEY:-}
-      - GEMINI_API_KEY=${GEMINI_API_KEY:-}
       - COPILOT_GITHUB_TOKEN=${COPILOT_GITHUB_TOKEN:-}
     working_dir: /workspace
     stdin_open: true

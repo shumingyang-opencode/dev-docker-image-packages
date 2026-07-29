@@ -12,11 +12,6 @@ agents:
     env_vars: [COPILOT_GITHUB_TOKEN, GH_TOKEN, GITHUB_TOKEN]
     run_cmd: 'echo {prompt} | copilot'
 
-  - name: gemini
-    binary: gemini
-    env_vars: [GEMINI_API_KEY]
-    run_cmd: 'export GEMINI_CLI_TRUST_WORKSPACE=true && echo {prompt} | gemini ask - --model gemini-1.5-flash'
-
   - name: lark-cli
     binary: lark-cli
     env_vars: []
