@@ -5,6 +5,8 @@ import pytest
 
 
 def test_agent_prompt_response(container_id, selected_agent, custom_prompt, cmd_timeout, llm_model):
+    if selected_agent.get("skip_advanced"):
+        pytest.skip(f"{selected_agent['name']} marked as skip_advanced")
     run_template = selected_agent.get("run_cmd")
     if not run_template:
         pytest.skip(f"No run_cmd defined for {selected_agent['name']}")
