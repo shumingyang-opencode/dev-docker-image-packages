@@ -4,19 +4,50 @@
 
 # Dev Docker Image Packages
 
+![GitHub Release](https://img.shields.io/github/v/release/shumingyang-opencode/dev-docker-image-packages)
+![GHCR Pulls](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fghcr.io%2Fv2%2Fshumingyang-opencode%2Fpy-devkit-image-base&label=GHCR%20pulls&query=%24.pull_count)
+![GitHub Actions Workflow](https://img.shields.io/github/actions/workflow/status/shumingyang-opencode/dev-docker-image-packages/build-image.yml)
+
 個人開發用 Docker Image 集合，透過 GitHub Actions 自動建置並發佈至 GHCR。
 
 ## 目錄
 
+- [Quick Start](#quick-start)
+- [需求](#需求)
 - [可用 Images](#可用-images)
+- [內建 AI CLI 工具](#內建-ai-cli-工具)
 - [Image Tags](#image-tags)
 - [使用方式](#使用方式)
 - [CI / GitHub Actions Workflows](#ci--github-actions-workflows)
 - [E2E 測試](#e2e-測試)
 - [Skills（OpenCode 整合）](#skillsopencode-整合)
+- [貢獻](#貢獻)
+- [相關專案](#相關專案)
+- [License](#license)
 - [專案目錄結構](#專案目錄結構)
 
 ---
+
+## Quick Start
+
+```bash
+# 1. 下載最新 Image
+docker pull ghcr.io/shumingyang-opencode/py-devkit-image-base:latest
+
+# 2. 啟動開發容器
+docker run --rm -it ghcr.io/shumingyang-opencode/py-devkit-image-base:latest bash
+
+# 3. 查看內建 AI CLI
+opencode --version && copilot --help && lark-cli --version && trae-cli --version
+```
+
+## 需求
+
+- [Docker](https://docs.docker.com/get-docker/) 已安裝
+- GitHub 帳號（用於觸發 CI 建置、E2E 測試）
+- 各 AI CLI 對應的 API Key（Advanced E2E 測試用）
+
+> 若只需要 **Pull & Run** Image，則只需要 Docker，不需要 GitHub 帳號。
 
 ## 可用 Images
 
@@ -25,6 +56,17 @@
 | [py-devkit-image-base](./images/py-devkit-image-base/) | 1.4.0 | python:3.12-slim | Python 開發基底（含 AI CLI、trae-agent、trae-cli 設定檔） | [README](./images/py-devkit-image-base/README.md) |
 
 > 詳細 Image 索引請見 [images/README.md](./images/README.md)。
+
+## 內建 AI CLI 工具
+
+| CLI | 安裝方式 | 用途 | 需 API Key |
+|-----|---------|------|:----------:|
+| `opencode` | npm (opencode-ai) | AI 開發助手 | ✅ |
+| `copilot` | npm (@github/copilot) | GitHub Copilot Agent | ✅ |
+| `lark-cli` | npm (@larksuite/cli) | 飛書開發工具（內部網路專用） | ❌ |
+| `trae-cli` | pip (trae-agent) | AI Code Agent | ✅ |
+
+> API Key 透過環境變數傳遞，詳見各 Image 說明文件。
 
 ## Image Tags
 
@@ -213,6 +255,26 @@ bash skills/install.sh
 | 「有哪些 image」 / 「list images」 | 列出所有可用 Image |
 | 「加 image」 / 「new image」 / 「create image」 | 互動式新增 Image（Dockerfile + README） |
 | 「build image」 / 「建置 image」 | 觸發 GitHub Actions 建置指定 Image |
+
+## 貢獻
+
+歡迎提交 PR 或 Feature Request：
+
+1. **新增 Image** — 在 `images/<name>/` 下建立 Dockerfile + 測試腳本，並在 `tests/e2e/agents/` 新增對應的設定檔
+2. **改善測試** — 補強 E2E 測試案例或新增測試覆蓋範圍
+3. **文件修正** — 修正錯字、補齊說明、改善文件品質
+
+提交方式：Fork 此專案 → 開發 → 提交 PR → 我會審閱後合併
+
+## 相關專案
+
+- [OpenCode](https://opencode.ai) — AI 開發助手（本 Image 內建）
+- [trae-agent](https://github.com/bytedance/trae-agent) — ByteDance 開源 AI Agent
+- [GHCR](https://ghcr.io) — GitHub Container Registry
+
+## License
+
+MIT
 
 ## 專案目錄結構
 

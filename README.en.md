@@ -4,7 +4,32 @@
 
 # Dev Docker Image Packages
 
+![GitHub Release](https://img.shields.io/github/v/release/shumingyang-opencode/dev-docker-image-packages)
+![GHCR Pulls](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fghcr.io%2Fv2%2Fshumingyang-opencode%2Fpy-devkit-image-base&label=GHCR%20pulls&query=%24.pull_count)
+![GitHub Actions Workflow](https://img.shields.io/github/actions/workflow/status/shumingyang-opencode/dev-docker-image-packages/build-image.yml)
+
 A collection of personal Docker images, automatically built and published to GHCR via GitHub Actions.
+
+## Quick Start
+
+```bash
+# 1. Pull the latest image
+docker pull ghcr.io/shumingyang-opencode/py-devkit-image-base:latest
+
+# 2. Start a dev container
+docker run --rm -it ghcr.io/shumingyang-opencode/py-devkit-image-base:latest bash
+
+# 3. Check the built-in AI CLIs
+opencode --version && copilot --help && lark-cli --version && trae-cli --version
+```
+
+## Prerequisites
+
+- [Docker](https://docs.docker.com/get-docker/) installed
+- GitHub account (to trigger CI builds and E2E tests)
+- API keys for each AI CLI (required for Advanced E2E tests)
+
+> To simply **pull and run** an image, you only need Docker — no GitHub account required.
 
 ## Available Images
 
@@ -13,6 +38,17 @@ A collection of personal Docker images, automatically built and published to GHC
 | [py-devkit-image-base](./images/py-devkit-image-base/) | 1.4.0 | python:3.12-slim | Python dev environment (AI CLIs, trae-agent, trae-cli config) | [README](./images/py-devkit-image-base/README.md) |
 
 > For a full image index, see [images/README.md](./images/README.md).
+
+## Built-in AI CLI Tools
+
+| CLI | Package | Description | Needs API Key |
+|-----|---------|-------------|:-------------:|
+| `opencode` | npm (opencode-ai) | AI development assistant | ✅ |
+| `copilot` | npm (@github/copilot) | GitHub Copilot Agent | ✅ |
+| `lark-cli` | npm (@larksuite/cli) | Lark development CLI (internal network only) | ❌ |
+| `trae-cli` | pip (trae-agent) | AI Code Agent | ✅ |
+
+> API keys are passed via environment variables. See each image's README for details.
 
 ## Image Tags
 
@@ -197,6 +233,26 @@ bash skills/install.sh
 | "有哪些 image" / "list images" | List all available images |
 | "加 image" / "new image" / "create image" | Scaffold a new image (Dockerfile + README) |
 | "build image" / "建置 image" | Trigger GitHub Actions build for an image |
+
+## Contributing
+
+PRs and feature requests are welcome:
+
+1. **Add a new image** — Create `images/<name>/` with a Dockerfile + test scripts, then add the agent config in `tests/e2e/agents/`
+2. **Improve tests** — Strengthen E2E test coverage or add new test cases
+3. **Documentation** — Fix typos, clarify instructions, or improve docs quality
+
+How to contribute: Fork → Develop → Submit a PR → I'll review and merge.
+
+## Related Projects
+
+- [OpenCode](https://opencode.ai) — AI development assistant (built into this image)
+- [trae-agent](https://github.com/bytedance/trae-agent) — ByteDance open-source AI Agent
+- [GHCR](https://ghcr.io) — GitHub Container Registry
+
+## License
+
+MIT
 
 ## Project Structure
 

@@ -4,7 +4,32 @@
 
 # Dev Docker Image Packages
 
+![GitHub Release](https://img.shields.io/github/v/release/shumingyang-opencode/dev-docker-image-packages)
+![GHCR Pulls](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fghcr.io%2Fv2%2Fshumingyang-opencode%2Fpy-devkit-image-base&label=GHCR%20pulls&query=%24.pull_count)
+![GitHub Actions Workflow](https://img.shields.io/github/actions/workflow/status/shumingyang-opencode/dev-docker-image-packages/build-image.yml)
+
 个人开发用 Docker Image 集合，通过 GitHub Actions 自动构建并发布至 GHCR。
+
+## Quick Start
+
+```bash
+# 1. 下载最新 Image
+docker pull ghcr.io/shumingyang-opencode/py-devkit-image-base:latest
+
+# 2. 启动开发容器
+docker run --rm -it ghcr.io/shumingyang-opencode/py-devkit-image-base:latest bash
+
+# 3. 查看内置 AI CLI
+opencode --version && copilot --help && lark-cli --version && trae-cli --version
+```
+
+## 需求
+
+- [Docker](https://docs.docker.com/get-docker/) 已安装
+- GitHub 账号（用于触发 CI 构建、E2E 测试）
+- 各 AI CLI 对应的 API Key（Advanced E2E 测试用）
+
+> 若只需要 **Pull & Run** Image，则只需要 Docker，不需要 GitHub 账号。
 
 ## 可用 Images
 
@@ -13,6 +38,17 @@
 | [py-devkit-image-base](./images/py-devkit-image-base/) | 1.4.0 | python:3.12-slim | Python 开发环境（含 AI CLI、trae-agent、trae-cli 配置文件） | [README](./images/py-devkit-image-base/README.md) |
 
 > 详细 Image 索引请见 [images/README.md](./images/README.md)。
+
+## 内置 AI CLI 工具
+
+| CLI | 安装方式 | 用途 | 需 API Key |
+|-----|---------|------|:----------:|
+| `opencode` | npm (opencode-ai) | AI 开发助手 | ✅ |
+| `copilot` | npm (@github/copilot) | GitHub Copilot Agent | ✅ |
+| `lark-cli` | npm (@larksuite/cli) | 飞书开发工具（内部网络专用） | ❌ |
+| `trae-cli` | pip (trae-agent) | AI Code Agent | ✅ |
+
+> API Key 通过环境变量传递，详见各 Image 说明文件。
 
 ## Image Tags
 
@@ -197,6 +233,26 @@ bash skills/install.sh
 | 「有哪些 image」 / 「list images」 | 列出所有可用 Image |
 | 「加 image」 / 「new image」 / 「create image」 | 互动式新增 Image（Dockerfile + README） |
 | 「build image」 / 「建置 image」 | 触发 GitHub Actions 构建指定 Image |
+
+## 贡献
+
+欢迎提交 PR 或 Feature Request：
+
+1. **新增 Image** — 在 `images/<name>/` 下建立 Dockerfile + 测试脚本，并在 `tests/e2e/agents/` 新增对应的配置文件
+2. **改善测试** — 补强 E2E 测试案例或新增测试覆盖范围
+3. **文档修正** — 修正错字、补全说明、改善文档质量
+
+提交方式：Fork 此项目 → 开发 → 提交 PR → 我会审核后合并
+
+## 相关项目
+
+- [OpenCode](https://opencode.ai) — AI 开发助手（本 Image 内置）
+- [trae-agent](https://github.com/bytedance/trae-agent) — ByteDance 开源 AI Agent
+- [GHCR](https://ghcr.io) — GitHub Container Registry
+
+## License
+
+MIT
 
 ## 项目目录结构
 
