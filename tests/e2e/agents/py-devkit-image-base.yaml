@@ -15,7 +15,7 @@ agents:
   - name: gemini
     binary: gemini
     env_vars: [GEMINI_API_KEY]
-    run_cmd: 'export GEMINI_CLI_TRUST_WORKSPACE=true && echo {prompt} | gemini ask - --model gemini-2.5-flash'
+    run_cmd: 'export GEMINI_CLI_TRUST_WORKSPACE=true && echo {prompt} | gemini ask - --model gemini-1.5-flash'
 
   - name: lark-cli
     binary: lark-cli
