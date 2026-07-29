@@ -10,22 +10,6 @@
 
 個人開發用 Docker Image 集合，透過 GitHub Actions 自動建置並發佈至 GHCR。
 
-## 目錄
-
-- [Quick Start](#quick-start)
-- [需求](#需求)
-- [可用 Images](#可用-images)
-- [內建 AI CLI 工具](#內建-ai-cli-工具)
-- [Image Tags](#image-tags)
-- [使用方式](#使用方式)
-- [CI / GitHub Actions Workflows](#ci--github-actions-workflows)
-- [E2E 測試](#e2e-測試)
-- [Skills（OpenCode 整合）](#skillsopencode-整合)
-- [貢獻](#貢獻)
-- [相關專案](#相關專案)
-- [License](#license)
-- [專案目錄結構](#專案目錄結構)
-
 ---
 
 ## Quick Start
