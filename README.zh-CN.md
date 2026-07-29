@@ -4,8 +4,6 @@
 
 # Dev Docker Image Packages
 
-![GitHub Release](https://img.shields.io/github/v/release/shumingyang-opencode/dev-docker-image-packages)
-![GHCR Pulls](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fghcr.io%2Fv2%2Fshumingyang-opencode%2Fpy-devkit-image-base&label=GHCR%20pulls&query=%24.pull_count)
 ![GitHub Actions Workflow](https://img.shields.io/github/actions/workflow/status/shumingyang-opencode/dev-docker-image-packages/build-image.yml)
 
 个人开发用 Docker Image 集合，通过 GitHub Actions 自动构建并发布至 GHCR。
