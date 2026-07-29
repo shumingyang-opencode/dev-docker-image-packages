@@ -14,8 +14,7 @@ agents:
 
   - name: lark-cli
     binary: lark-cli
-    env_vars: [LARKSUITE_CLI_APP_ID, LARKSUITE_CLI_APP_SECRET]
-    run_cmd: 'export LARKSUITE_CLI_BRAND=feishu LARKSUITE_CLI_DEFAULT_AS=bot LARKSUITE_CLI_STRICT_MODE=bot && lark-cli whoami'
+    env_vars: []
 
   - name: trae-cli
     binary: trae-cli

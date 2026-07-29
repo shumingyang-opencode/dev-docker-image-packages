@@ -61,13 +61,9 @@ on:
         description: |
           COPILOT_GITHUB_TOKEN (for copilot agent)
         required: false
-      larksuite_app_id:
+      gemini_api_key:
         description: |
-          LARKSUITE_CLI_APP_ID (for lark-cli agent)
-        required: false
-      larksuite_app_secret:
-        description: |
-          LARKSUITE_CLI_APP_SECRET (for lark-cli agent)
+          GEMINI_API_KEY (for gemini agent)
         required: false
       openai_api_key:
         description: |
@@ -118,8 +114,7 @@ jobs:
         env:
           OPENCODE_API_KEY: ${{ inputs.opencode_api_key }}
           COPILOT_GITHUB_TOKEN: ${{ inputs.copilot_token }}
-          LARKSUITE_CLI_APP_ID: ${{ inputs.larksuite_app_id }}
-          LARKSUITE_CLI_APP_SECRET: ${{ inputs.larksuite_app_secret }}
+          GEMINI_API_KEY: ${{ inputs.gemini_api_key }}
           OPENAI_API_KEY: ${{ inputs.openai_api_key || inputs.openrouter_api_key }}
           ANTHROPIC_API_KEY: ${{ inputs.anthropic_api_key }}
           OPENROUTER_API_KEY: ${{ inputs.openrouter_api_key }}
