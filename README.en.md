@@ -5,6 +5,8 @@
 # Dev Docker Image Packages
 
 ![GitHub Actions Workflow](https://img.shields.io/github/actions/workflow/status/shumingyang-opencode/dev-docker-image-packages/build-image.yml)
+![Last Commit](https://img.shields.io/github/last-commit/shumingyang-opencode/dev-docker-image-packages)
+![License](https://img.shields.io/badge/license-MIT-blue)
 
 A collection of personal Docker images, automatically built and published to GHCR via GitHub Actions.
 
